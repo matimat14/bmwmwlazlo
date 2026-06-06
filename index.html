@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <title>Mateusz Wlaz&#322;o serwis BMW i MINI</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #000;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100svh;
+      overflow-x: hidden;
+    }
+
+    .screen {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      background: #000;
+    }
+
+    .visual {
+      position: relative;
+      width: min(100vw, 1672px);
+      max-height: min(100svh, 941px);
+      aspect-ratio: 1672 / 941;
+      display: grid;
+      place-items: center;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      box-shadow:
+        inset 0 0 clamp(54px, 9vw, 190px) clamp(22px, 5vw, 110px) #000,
+        inset 0 0 clamp(24px, 5vw, 96px) #000;
+    }
+
+    .visual > img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      filter: brightness(0.92) contrast(1.04);
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, rgba(0, 0, 0, 0.9) 72%, transparent 100%);
+      mask-image: radial-gradient(ellipse at center, #000 58%, rgba(0, 0, 0, 0.9) 72%, transparent 100%);
+    }
+
+    #nasza_oferta .visual,
+    #o_firmie .visual,
+    #kontakt .visual {
+      width: min(86vw, 1438px);
+      max-height: min(86svh, 809px);
+    }
+
+    .entry {
+      position: absolute;
+      top: 45%;
+      left: 51.22%;
+      z-index: 2;
+      display: block;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -44%);
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+
+    .entry.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%);
+    }
+
+    .entry--about {
+      top: 45%;
+      left: 30.5%;
+    }
+
+    .entry--contact {
+      top: 45%;
+      left: 71.94%;
+    }
+
+    .entry__link {
+      --accent-rgb: 23, 120, 202;
+      position: relative;
+      display: inline-block;
+      padding: clamp(5px, 0.55vw, 8px) clamp(12px, 1.05vw, 18px);
+      color: #bbbfc2;
+      font: 400 clamp(12px, 0.98vw, 17px) / 1 Arial, Helvetica, sans-serif;
+      font-style: italic;
+      text-decoration: none;
+      letter-spacing: 0;
+      background: rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(187, 191, 194, 0.42);
+      border-radius: 3px;
+      text-shadow:
+        0 1px 7px #000,
+        0 0 8px rgba(0, 0, 0, 0.55);
+      transition: background 220ms ease, border-color 220ms ease, color 220ms ease, box-shadow 220ms ease;
+    }
+
+    .entry__link:hover {
+      color: #bbbfc2;
+      background: rgba(var(--accent-rgb), 0.18);
+      border-color: rgba(var(--accent-rgb), 0.72);
+      box-shadow:
+        0 0 0 1px rgba(var(--accent-rgb), 0.18) inset,
+        0 0 10px rgba(var(--accent-rgb), 0.26),
+        0 0 20px rgba(var(--accent-rgb), 0.18);
+      text-shadow:
+        0 1px 7px #000,
+        0 0 8px rgba(var(--accent-rgb), 0.4);
+    }
+
+    .entry__link--about {
+      --accent-rgb: 132, 207, 229;
+    }
+
+    .entry__link--contact {
+      --accent-rgb: 209, 51, 55;
+    }
+
+    .home-link {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(18px, 2.2vw, 34px);
+      z-index: 2;
+      width: clamp(30px, 2.5vw, 42px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      color: #bbbfc2;
+      background: rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(187, 191, 194, 0.42);
+      border-radius: 3px;
+      transform: translateX(-50%);
+      transition: background 220ms ease, border-color 220ms ease, color 220ms ease, box-shadow 220ms ease;
+    }
+
+    .home-link:hover {
+      color: #050607;
+      background: rgba(246, 193, 84, 0.26);
+      border-color: rgba(246, 193, 84, 0.78);
+      box-shadow:
+        0 0 0 1px rgba(246, 193, 84, 0.16) inset,
+        0 0 10px rgba(246, 193, 84, 0.28),
+        0 0 20px rgba(246, 193, 84, 0.18);
+    }
+
+    .home-link svg {
+      width: 58%;
+      height: 58%;
+      display: block;
+      stroke: currentColor;
+    }
+
+    @media (max-aspect-ratio: 1672 / 941) {
+      .visual {
+        width: 100vw;
+        height: auto;
+      }
+    }
+
+    @media (min-aspect-ratio: 1672 / 941) {
+      .visual {
+        width: auto;
+        height: min(100svh, 941px);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .entry {
+        top: 47%;
+        left: 50%;
+      }
+
+      .entry--about {
+        top: 43%;
+      }
+
+      .entry--contact {
+        top: 51%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="screen" id="start" aria-label="Start">
+    <main class="visual" aria-label="Mateusz Wlaz&#322;o serwis BMW i MINI">
+      <img id="hero-image" src="logo01.jpg" alt="Mateusz Wlaz&#322;o serwis BMW i MINI">
+      <div class="entry" id="entry">
+        <a class="entry__link" href="#nasza_oferta">Nasza oferta</a>
+      </div>
+      <div class="entry entry--about">
+        <a class="entry__link entry__link--about" href="#o_firmie">O firmie</a>
+      </div>
+      <div class="entry entry--contact">
+        <a class="entry__link entry__link--contact" href="#kontakt">Kontakt</a>
+      </div>
+    </main>
+  </section>
+
+  <section class="screen" id="nasza_oferta" aria-label="Nasza oferta">
+    <main class="visual" aria-label="Mateusz Wlaz&#322;o serwis BMW i MINI - nasza oferta">
+      <img src="nasza_oferta.jpg" alt="Mateusz Wlaz&#322;o serwis BMW i MINI - nasza oferta">
+      <a class="home-link" href="#start" title="Wr&#243;&#263; na g&#243;r&#281;" aria-label="Wr&#243;&#263; na g&#243;r&#281;">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 11.5 12 4l9 7.5"/>
+          <path d="M6.5 10.5V20h11v-9.5"/>
+          <path d="M10 20v-5h4v5"/>
+        </svg>
+      </a>
+    </main>
+  </section>
+
+  <section class="screen" id="o_firmie" aria-label="O firmie">
+    <main class="visual" aria-label="Mateusz Wlaz&#322;o serwis BMW i MINI - o firmie">
+      <img src="o_firmie.jpg" alt="Mateusz Wlaz&#322;o serwis BMW i MINI - o firmie">
+      <a class="home-link" href="#start" title="Wr&#243;&#263; na g&#243;r&#281;" aria-label="Wr&#243;&#263; na g&#243;r&#281;">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 11.5 12 4l9 7.5"/>
+          <path d="M6.5 10.5V20h11v-9.5"/>
+          <path d="M10 20v-5h4v5"/>
+        </svg>
+      </a>
+    </main>
+  </section>
+
+  <section class="screen" id="kontakt" aria-label="Kontakt">
+    <main class="visual" aria-label="Mateusz Wlaz&#322;o serwis BMW i MINI - kontakt">
+      <img src="kontakt.jpg" alt="Mateusz Wlaz&#322;o serwis BMW i MINI - kontakt">
+      <a class="home-link" href="#start" title="Wr&#243;&#263; na g&#243;r&#281;" aria-label="Wr&#243;&#263; na g&#243;r&#281;">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 11.5 12 4l9 7.5"/>
+          <path d="M6.5 10.5V20h11v-9.5"/>
+          <path d="M10 20v-5h4v5"/>
+        </svg>
+      </a>
+    </main>
+  </section>
+
+  <script>
+    const frames = [
+      "logo01.jpg",
+      "logo02.jpg",
+      "logo03.jpg",
+      "logo04.jpg",
+      "logo05.jpg"
+    ];
+
+    const heroImage = document.querySelector("#hero-image");
+    const entries = document.querySelectorAll(".entry");
+    let currentFrame = 0;
+
+    frames.forEach((frame) => {
+      const image = new Image();
+      image.src = frame;
+    });
+
+    const animation = setInterval(() => {
+      if (currentFrame >= frames.length - 1) {
+        clearInterval(animation);
+        entries.forEach((entry) => entry.classList.add("is-visible"));
+        return;
+      }
+
+      currentFrame += 1;
+      heroImage.src = frames[currentFrame];
+    }, 1000);
+  </script>
+</body>
+</html>
